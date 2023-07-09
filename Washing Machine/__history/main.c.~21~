@@ -1,0 +1,68 @@
+#include <main.h>
+#use fast_io(b)                     // b portu manuel ayaralanacak
+#use fast_io(a)
+#define use_portb_lcd TRUE          // LCD B portuna baðlý
+#include <lcd.c>                    // lcd.c dosyasý tanýtýlýyor
+void rotateMotor(){
+
+
+         output_b(0b00000101);
+         delay_ms(15000);
+         output_b(0b00000110);
+         delay_ms(15000);
+         output_b(0b00000000);
+      
+}
+
+void waterIntakeValve(){
+
+      output_high(pin_B3);
+      delay_ms(2000);
+      output_low(pin_B3);
+}
+
+void waterDrainValve(){
+      output_high(pin_B4);
+      delay_ms(2000);
+      output_low(pin_B4);
+}
+
+void main()
+{
+   set_tris_b(0x00);
+   output_b(0x00);
+   set_tris_a(0xFF);
+
+   while(true)
+   {
+   if(input(pin_A0) == 1)
+   {
+      printf(lcd_putc,"\f Yýkanýyor.");
+      output_high(pin_B3);
+      delay_ms(2000);
+      output_low(pin_B3);
+      
+      for(int i=0;i<1;i++)
+      rotateMotor();
+      
+      printf(lcd_putc,"\f Yýkama bitti.");
+      delay_ms(2000);
+      printf(lcd_putc,"\ fDurulanýyor.");
+      waterDrainValve();
+      waterIntakeValve();
+      rotateMotor();
+      waterDrainValve();
+      printf(lcd_putc,"\fDurulama bitti.");
+      delay_ms(2000);
+      printf(lcd_putc,"/fSýkýlýyor.");
+      output_b(0b00000101);
+      delay_ms(15000);
+      output_b(0b00000000);
+      printf(lcd_putc,"/fSýkma bitti.");
+
+   }
+
+      
+   }
+
+}

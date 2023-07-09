@@ -1,0 +1,14 @@
+#include <main.h>
+
+void main()
+{
+   set_tris_b(0x00);
+   output_b(0x00);
+
+   while(TRUE)
+   {
+      output_b(pin_B3);
+      
+   }
+
+}

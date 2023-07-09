@@ -1,0 +1,35 @@
+#include <main.h>
+
+void rotateMotor(){
+
+      for(int i=0;i<3;i++)
+      {
+         output_b(0b00000101);
+         delay_ms(30000);
+         output_b(0b00000110);
+         delay_ms(30000);
+      }
+}
+
+void main()
+{
+   set_tris_b(0x00);
+   output_b(0x00);
+
+   while(TRUE)
+   {
+      output_high(pin_B3);
+      delay_ms(20000);
+      output_low(pin_B3);
+     
+      rotateMotor();
+      
+      output_high(pin_B4);
+      delay_ms(20000);
+      output_low(pin_B4);
+      delay_ms(20000);
+      rotateMotor();
+      
+   }
+
+}

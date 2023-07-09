@@ -1,0 +1,64 @@
+#include <main.h>
+
+void rotateMotor(){
+
+
+         output_b(0b00000101);
+         delay_ms(15000);
+         output_b(0b00000110);
+         delay_ms(15000);
+         output_b(0b00000000);
+      
+}
+
+void waterIntakeValve(){
+
+      output_high(pin_B3);
+      delay_ms(2000);
+      output_low(pin_B3);
+}
+
+void waterDrainValve(){
+      output_high(pin_B4);
+      delay_ms(2000);
+      output_low(pin_B4);
+}
+
+void main()
+{
+   set_tris_b(0x00);
+   output_b(0x00);
+   set_tris_a(0xFF);
+
+   while(true)
+   {
+   if(input(pin_A0) == 1)
+   {
+      output_high(pin_B3);
+      delay_ms(2000);
+      output_low(pin_B3);
+      
+      for(int i=0;i<1;i++)
+      rotateMotor();
+      
+      waterDrainValve();
+      waterIntakeValve();
+      rotateMotor();
+      waterDrainValve();
+      
+      output_b(0b00000101);
+      delay_ms(15000);
+      output_b(0b00000000);
+      
+      while(true)
+      {
+         output_high(pin_B5);
+         delay_ms(1000);
+         output_low(pin_B5);
+      }
+   }
+
+      
+   }
+
+}
